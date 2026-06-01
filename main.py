@@ -39,10 +39,11 @@ def basic_dataframe_cleaning(df, id_column_name):
 
 def book_dataframe_cleaning(df):
     df['Book checkout'] = df['Book checkout'].apply(lambda x: x.strip('''"'''))
-    pd.to_datetime(df['Book checkout'], format= '%d/%m/%Y', errors='coerce').notnull().all()
-    pd.to_datetime(df['Book Returned'], format= '%d/%m/%Y', errors='coerce').notnull().all()
+    df['Book checkout'] = pd.to_datetime(df['Book checkout'], format= '%d/%m/%Y', errors='coerce')
+    df['Book Returned'] = pd.to_datetime(df['Book Returned'], format= '%d/%m/%Y', errors='coerce')
     df['Days allowed to borrow'] = df['Days allowed to borrow'].apply(lambda x: days_allowed_to_borrow_converter(x))
     df['Customer ID'] = df['Customer ID'].apply(lambda x: int(x))
+    df = df.dropna()
     return df
 
 def library_system_cross_reference_validator(books_df, customers_df):
