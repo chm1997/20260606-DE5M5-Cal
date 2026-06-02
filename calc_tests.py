@@ -10,7 +10,7 @@ class TestOperations(unittest.TestCase):
         self.assertEqual(self.calculator.get_sum(), 10, "The answer was not 10")
     
     def test_sub(self):
-        self.assertEqual(self.calculator.get_sub(), 9, "The answer was not 10")
+        self.assertEqual(self.calculator.get_sub(), 6, "The answer was not 10")
     
     def test_mult(self):
         self.assertEqual(self.calculator.get_mult(), 16, "The answer was not 10")
