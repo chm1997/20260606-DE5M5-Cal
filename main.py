@@ -1,6 +1,7 @@
 # Imports and Data
 import pandas as pd
 import regex as re
+from datetime import datetime
 
 library_system_customer_path = r"C:\Course Files\data\03_Library SystemCustomers.csv"
 library_system_book_path = r"C:\Course Files\data\03_Library Systembook.csv"
@@ -55,6 +56,12 @@ def library_system_cross_reference_validator(books_df, customers_df):
             books_df = books_df.drop(index)
     return books_df, dropped_count
 
+def library_system_book_checkout_matcher(df):
+    df['Days book held'] = (df['Book Returned'] - df['Book checkout']).dt.days
+    df = df[df['Days book held']>=0]
+    df['Book overdue'] = df['Days allowed to borrow'] <= df['Days book held']
+    return df
+
 
 # Main Code
 def main():
@@ -68,8 +75,12 @@ def main():
 
     library_system_book_df, records_dropped = library_system_cross_reference_validator(library_system_book_df, library_system_customer_df)
 
-    library_system_customer_df.to_csv(library_system_customer_output_path)
-    library_system_book_df.to_csv(library_system_book_output_path)
+    library_system_book_df = library_system_book_checkout_matcher(library_system_book_df)
+    print(library_system_book_df.head(25))
+
+
+    # library_system_customer_df.to_csv(library_system_customer_output_path)
+    # library_system_book_df.to_csv(library_system_book_output_path)
     return records_dropped
 
 print(main())
