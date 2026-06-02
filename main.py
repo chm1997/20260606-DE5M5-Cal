@@ -34,7 +34,7 @@ def basic_dataframe_cleaning(df, id_column_name):
     df = df.dropna()
     df = df.drop_duplicates()
     df[id_column_name] = df[id_column_name].apply(lambda x: int(x))
-    if True in df.duplicated(subset=[id_column_name]):
+    if df.duplicated(subset=[id_column_name]).any():
         raise DuplicateIDException(f"duplicate in {id_column_name} field")
     return df
 
@@ -76,15 +76,10 @@ def main():
     library_system_book_df, records_dropped = library_system_cross_reference_validator(library_system_book_df, library_system_customer_df)
 
     library_system_book_df = library_system_book_checkout_matcher(library_system_book_df)
-    print(library_system_book_df.head(25))
 
-
-    # library_system_customer_df.to_csv(library_system_customer_output_path)
-    # library_system_book_df.to_csv(library_system_book_output_path)
+    library_system_customer_df.to_csv(library_system_customer_output_path)
+    library_system_book_df.to_csv(library_system_book_output_path)
     return records_dropped
 
-print(main())
-
-# print(library_system_customer_df.head(10))
-# print(library_system_book_df.head(25))
-# print(records_dropped)
+if "__name__" == "__main__":
+    print(main)
