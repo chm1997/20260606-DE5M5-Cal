@@ -17,4 +17,4 @@ Run main.py to run code and test.py to run test. Paths to input files currently 
 
 ## Power Bi Dashboard
 
-!(/PowerBiScreenshot.png?raw=true)
+![Alt text](/PowerBiScreenshot.png?raw=true "Optional Title")
