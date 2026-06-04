@@ -1,7 +1,7 @@
 import unittest
 import os
 import pandas as pd
-from .main import days_allowed_to_borrow_converter, basic_dataframe_cleaning, book_dataframe_cleaning, library_system_cross_reference_validator, library_system_book_checkout_matcher, DuplicateIDException
+from src.main import days_allowed_to_borrow_converter, basic_dataframe_cleaning, book_dataframe_cleaning, library_system_cross_reference_validator, library_system_book_checkout_matcher, DuplicateIDException
 
 class TestOperations(unittest.TestCase):
     def setUp(self):
