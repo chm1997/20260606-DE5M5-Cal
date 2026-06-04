@@ -28,5 +28,5 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r src/requirements.txt;
     - name: Test with unit test
-      run: |
+      run:
         python test/tests.py
