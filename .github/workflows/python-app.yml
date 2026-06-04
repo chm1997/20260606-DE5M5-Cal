@@ -29,4 +29,4 @@ jobs:
         pip install -r src/requirements.txt;
     - name: Test with unit test
       run:
-        python test/tests.py
+        python -m test/tests.py
