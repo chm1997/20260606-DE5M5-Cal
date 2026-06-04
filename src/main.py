@@ -81,5 +81,5 @@ def main():
     library_system_book_df.to_csv(library_system_book_output_path)
     return records_dropped
 
-if "__name__" == "__main__":
+if __name__ == "__main__":
     print(main)
