@@ -15,3 +15,6 @@ Run main.py to run code and test.py to run test. Paths to input files currently 
 * 0.1
     * PoC Version
 
+## Power Bi Dashboard
+
+!(/PowerBiScreenshot.png?raw=true)

@@ -1,12 +1,14 @@
 # Imports and Data
 import pandas as pd
 import regex as re
+import time
 from datetime import datetime
 
 library_system_customer_path = r"C:\Course Files\data\03_Library SystemCustomers.csv"
 library_system_book_path = r"C:\Course Files\data\03_Library Systembook.csv"
 library_system_customer_output_path = r"C:\Course Files\data\03_Library SystemCustomers Output.csv"
 library_system_book_output_path = r"C:\Course Files\data\03_Library Systembook Output.csv"
+metrics_output_path = r"C:\Course Files\data\Metrics Output.csv"
 
 # Exceptions
 class DuplicateIDException(Exception):
@@ -65,21 +67,37 @@ def library_system_book_checkout_matcher(df):
 
 # Main Code
 def main():
+    start_time = time.perf_counter()
     library_system_customer_df = pd.read_csv(library_system_customer_path)
     library_system_book_df = pd.read_csv(library_system_book_path)
+
+    total_records = len(library_system_customer_df) + len(library_system_book_df)
 
     library_system_customer_df = basic_dataframe_cleaning(library_system_customer_df, 'Customer ID')
     library_system_book_df = basic_dataframe_cleaning(library_system_book_df, 'Id')
 
     library_system_book_df = book_dataframe_cleaning(library_system_book_df)
 
-    library_system_book_df, records_dropped = library_system_cross_reference_validator(library_system_book_df, library_system_customer_df)
+    library_system_book_df, customer_id_mismatch_count = library_system_cross_reference_validator(library_system_book_df, library_system_customer_df)
 
     library_system_book_df = library_system_book_checkout_matcher(library_system_book_df)
 
     library_system_customer_df.to_csv(library_system_customer_output_path)
     library_system_book_df.to_csv(library_system_book_output_path)
-    return records_dropped
+
+    final_records = len(library_system_customer_df) + len(library_system_book_df)
+
+    end_time = time.perf_counter()
+
+    metrics_df = pd.DataFrame({
+        'Records Processed': [final_records],
+        'Records Dropped': [(total_records - final_records)],
+        'Pipeline Execution Time': [(end_time - start_time)]
+    })
+
+    metrics_df.to_csv(metrics_output_path)
+
+    return customer_id_mismatch_count
 
 if __name__ == "__main__":
-    print(main)
+    print(main())
